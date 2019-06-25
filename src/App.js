@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Async from 'react-async';
+
+const loadJson = () =>
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(res => (res.ok ? res : Promise.reject(res)))
+    .then(res => res.json())
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Async promiseFn={loadJson}>
+        {({ data, err, isLoading }) => {
+          if (isLoading) return "Loading..."
+          if (err) return `Something went wrong: ${err.message}`
+
+          if (data)
+            return (
+              <div>
+                <div>
+                  <h2>React Async - Random Users</h2>
+                </div>
+                {data.map(user=> (
+                  <div key={user.username} className="row">
+                    <div className="col-md-12">
+                      <p>{user.name}</p>
+                      <p>{user.email}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )
+        }}
+      </Async>
     </div>
   );
 }
