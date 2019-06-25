@@ -11,27 +11,27 @@ function App() {
   return (
     <div className="container">
       <Async promiseFn={loadJson}>
-        {({ data, err, isLoading }) => {
-          if (isLoading) return "Loading..."
-          if (err) return `Something went wrong: ${err.message}`
-
-          if (data)
-            return (
-              <div>
+          <Async.Loading>Loading...</Async.Loading>
+          <Async.Fulfilled>
+            {data => {
+              return (
                 <div>
-                  <h2>React Async - Random Users</h2>
-                </div>
-                {data.map(user=> (
-                  <div key={user.username} className="row">
-                    <div className="col-md-12">
-                      <p>{user.name}</p>
-                      <p>{user.email}</p>
-                    </div>
+                  <div>
+                    <h2>React Async - Random Users</h2>
                   </div>
-                ))}
-              </div>
-            )
-        }}
+                  {data.map(user=> (
+                    <div key={user.username} className="row">
+                      <div className="col-md-12">
+                        <p>{user.name}</p>
+                        <p>{user.email}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            }}
+          </Async.Fulfilled>
+          <Async.Rejected>{error => `Something went wrong: ${error.message}`}</Async.Rejected>
       </Async>
     </div>
   );
