@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import { useAsync, useFetch } from 'react-async';
+import { useAsync } from 'react-async';
 
-const loadJson = async () =>
-  await useFetch("https://jsonplaceholder.typicode.com/users")
+const loadUsers = async () =>
+  await fetch("https://jsonplaceholder.typicode.com/users")
     .then(res => (res.ok ? res : Promise.reject(res)))
     .then(res => res.json())
 
 function App() {
-  const { data, error, isLoading } = useAsync({ promiseFn: loadJson })
+  const { data, error, isLoading } = useAsync({ promiseFn: loadUsers })
 
   if (isLoading) return "Loading..."
   if (error) return `Something went wrong: ${error.message}`
