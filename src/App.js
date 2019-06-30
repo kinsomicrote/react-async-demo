@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Async from 'react-async';
 
-const loadJson = () =>
+const loadUsers = () =>
   fetch("https://jsonplaceholder.typicode.com/users")
     .then(res => (res.ok ? res : Promise.reject(res)))
     .then(res => res.json())
@@ -10,7 +10,7 @@ const loadJson = () =>
 function App() {
   return (
     <div className="container">
-      <Async promiseFn={loadJson}>
+      <Async promiseFn={loadUsers}>
           <Async.Loading>Loading...</Async.Loading>
           <Async.Fulfilled>
             {data => {
