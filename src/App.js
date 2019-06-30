@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import { useAsync } from 'react-async';
+import { useAsync, useFetch } from 'react-async';
 
 const loadJson = async () =>
-  fetch("https://jsonplaceholder.typicode.com/users")
+  await useFetch("https://jsonplaceholder.typicode.com/users")
     .then(res => (res.ok ? res : Promise.reject(res)))
     .then(res => res.json())
 
